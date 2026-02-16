@@ -1,8 +1,9 @@
-import express from "express"
+import express, { type Request, type Response } from "express"
 import corsOptions from "./config/cors.js"
 import cors from 'cors'
 import { prisma } from "./config/db.js"
 import { config } from "dotenv"
+import movieRoutes from "./routes/movies.route.js"
 config()
 
 const app = express()
@@ -12,7 +13,10 @@ const PORT = process.env.PORT || 3000
 app.use(express.json())
 app.use(cors(corsOptions))
 
-app.get("/",(req,res)=>{
+//Routes
+app.use("/api/v1/movies",movieRoutes)
+
+app.get("/",(req:Request,res:Response)=>{
     res.send("Api is running")
 })
 

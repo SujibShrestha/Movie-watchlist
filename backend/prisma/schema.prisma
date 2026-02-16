@@ -7,3 +7,41 @@ datasource db {
   provider = "postgresql"
 }
 
+model User {
+  id        Int         @id @default(autoincrement())
+  email     String      @unique
+  name      String?
+  password  String
+  avatar    String?
+  watchlist Watchlist[]
+  createdAt DateTime    @default(now())
+}
+
+model Movie {
+  id               Int         @id @default(autoincrement()) // local DB id
+  title            String
+  overview         String?
+  posterPath       String?
+  originalLanguage String? // store genre IDs as array                              // true/false
+  voteAverage      Float?
+  createdAt        DateTime    @default(now())
+  status           movieStatus
+  // Relation to Watchlist
+  watchlists       Watchlist[]
+}
+
+model Watchlist {
+  id      Int      @id @default(autoincrement())
+  user    User     @relation(fields: [userId], references: [id])
+  userId  Int
+  movie   Movie    @relation(fields: [movieId], references: [id])
+  movieId Int
+  addedAt DateTime @default(now())
+
+  @@unique([userId, movieId])
+}
+
+enum movieStatus {
+  NOT_WATCHED
+  WATCHED
+}
