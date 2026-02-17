@@ -4,6 +4,7 @@ import cors from 'cors'
 import { prisma } from "./config/db.js"
 import { config } from "dotenv"
 import movieRoutes from "./routes/movies.route.js"
+import authRoutes from "./routes/auth.route.js"
 config()
 
 const app = express()
@@ -15,6 +16,7 @@ app.use(cors(corsOptions))
 
 //Routes
 app.use("/api/v1/movies",movieRoutes)
+app.use("/api/v1/auth",authRoutes)
 
 app.get("/",(req:Request,res:Response)=>{
     res.send("Api is running")

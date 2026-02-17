@@ -1,5 +1,5 @@
 import type { Request, Response } from "express";
-import { fetchTrendingMovies } from "../services/tmdb.services.js";
+import { fetchTrendingMovies } from "../services/tmdb.service.js";
 
 export async function getTrendingMovies(req:Request, res:Response) {
   try {

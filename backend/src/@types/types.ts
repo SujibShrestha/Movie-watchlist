@@ -4,7 +4,7 @@ export interface User {
   name?: string | null;
   password: string;
   avatar?: string | null;
-  watchlist: Watchlist[];
+  watchlist?: Watchlist[];
   createdAt: Date;
 }
 
