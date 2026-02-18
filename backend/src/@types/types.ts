@@ -27,13 +27,20 @@ export enum MovieStatus {
 
 export interface Watchlist {
   id: number;
-
   userId: number;
-  movieId: number;
+  tmdbId: number;
+  title: string;
+  overview?: string | null;
+  posterPath?: string | null;
+  originalLanguage?: string | null;
+  voteAverage?: number | null;
+
+  // watch state
+  status: MovieStatus;
 
   addedAt: Date;
+  createdAt: Date;
 
-  // Relations (nested objects when included in queries)
+  // optional relation when using include()
   user?: User;
-  movie?: Movie;
 }
