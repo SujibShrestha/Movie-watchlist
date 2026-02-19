@@ -1,4 +1,5 @@
-import type { Movie, MovieStatus } from "../@types/types.js";
+import { Prisma } from "../generated/prisma/index.js";
+import type { Movie, MovieStatus, Watchlist } from "../@types/types.js";
 import { prisma } from "../config/db.js";
 import { ApiError } from "../helpers/ApiError.js";
 import type { AddMovieInput } from "../validators/movie.validation.js";
@@ -37,15 +38,45 @@ export const addMovies = async (movieData: AddMovieInput) => {
   return newMovie;
 };
 
-export const getMovies = async (userId: number) => {
+export const getMovies = async (
+  userId: number,
+  page: number = 1,
+  limit: number = 10,
+  status?: MovieStatus,
+) => {
   try {
-    const movies = await prisma.watchlist.findMany({
-      where: { userId },
-      orderBy: { addedAt: "desc" },
-    });
-    if (!movies) new ApiError(404, "No Movies found in this user's watchlist");
+    const safeLimit = Math.min(limit, 50);
+    const safePage = Math.max(page, 1);
+    const skip = (safePage - 1) * safeLimit;
+    const whereClause:  Prisma.WatchlistWhereInput = { userId };
 
-    return movies;
+    if (status) {
+      whereClause.status = status;
+    }
+    const movies = await prisma.watchlist.findMany({
+      where: whereClause,
+      orderBy: { addedAt: "desc" },
+      skip,
+      take: safeLimit,
+    });
+
+    const totalMovies = await prisma.watchlist.count({
+      where: whereClause,
+    });
+
+    const totalPages = Math.ceil(totalMovies / safeLimit);
+
+    return {
+      data: movies,
+      pagination: {
+        total: totalMovies,
+        page: safePage,
+        limit: safeLimit,
+        totalPages,
+        hasNextPage: safePage < totalPages,
+        hasPreviousPage: safePage > 1,
+      },
+    };
   } catch (error: any) {
     throw new ApiError(404, error);
   }

@@ -10,6 +10,7 @@ import {
 } from "../services/watchlist.service.js";
 import type { AddMovieInput } from "../validators/movie.validation.js";
 import type { User } from "../generated/prisma/index.ts";
+import type { MovieStatus } from "../@types/types.js";
 
 export const addToWatchlist = async (req: Request, res: Response) => {
   try {
@@ -31,10 +32,13 @@ export const addToWatchlist = async (req: Request, res: Response) => {
 export const fetchMovies = async (req: Request, res: Response) => {
   try {
     const userId = req.user.id;
+    const page = parseInt(req.query.page as string) || 1;
+    const limit = parseInt(req.query.limit as string) || 10;
+    const status = req.query.status as MovieStatus;
     if (!userId) {
       throw new ApiError(401, "Unauthorized");
     }
-    const movies = await getMovies(userId);
+    const movies = await getMovies(userId, page, limit, status);
 
     return res
       .status(200)
@@ -81,7 +85,7 @@ export const fetchMovie = async (req: Request, res: Response) => {
 
 export const updateMovieStatusController = async (
   req: Request,
-  res: Response
+  res: Response,
 ) => {
   try {
     const id = Number(req.params.id);
