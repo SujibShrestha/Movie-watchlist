@@ -1,7 +1,13 @@
 import type { Request, Response } from "express";
 import { ApiError } from "../helpers/ApiError.js";
 import { ApiResponse } from "../helpers/ApiResponse.js";
-import { addMovies, getMovies } from "../services/watchlist.service.js";
+import {
+  addMovies,
+  deleteMovies,
+  getMovie,
+  getMovies,
+  updateMovie,
+} from "../services/watchlist.service.js";
 import type { AddMovieInput } from "../validators/movie.validation.js";
 import type { User } from "../generated/prisma/index.ts";
 
@@ -37,5 +43,69 @@ export const fetchMovies = async (req: Request, res: Response) => {
     return res
       .status(error.statusCode || 500)
       .json(new ApiResponse(500, null, error.message || "Failed to fetch"));
+  }
+};
+
+export const deleteMovieFromWatchlist = async (req: Request, res: Response) => {
+  const id = Number(req.params.id);
+  const userId = req.user.id;
+  if (!userId) {
+    throw new ApiError(401, "Unauthorized");
+  }
+  const result = await deleteMovies(id, userId);
+
+  res.status(200).json({
+    success: true,
+    ...result,
+  });
+};
+
+export const fetchMovie = async (req: Request, res: Response) => {
+  try {
+    const id = Number(req.params.id);
+    const userId = req.user.id;
+    if (!userId) {
+      throw new ApiError(401, "Unauthorized");
+    }
+    const movies = await getMovie(id, userId);
+
+    return res
+      .status(200)
+      .json(new ApiResponse(200, movies, "Movie fetched successfully"));
+  } catch (error: any) {
+    return res
+      .status(error.statusCode || 500)
+      .json(new ApiResponse(500, null, error.message || "Failed to fetch"));
+  }
+};
+
+export const updateMovieStatusController = async (
+  req: Request,
+  res: Response
+) => {
+  try {
+    const id = Number(req.params.id);
+    const userId = req.user.id;
+    const { status } = req.body;
+
+    if (!status) {
+      return res.status(400).json({
+        success: false,
+        message: "Status is required",
+      });
+    }
+
+    const movie = await updateMovie(id, userId, status);
+
+    return res.status(200).json({
+      success: true,
+      message: "Movie status updated successfully",
+      data: movie,
+    });
+  } catch (error: any) {
+    return res.status(error.statusCode || 500).json({
+      success: false,
+      message: error.message,
+    });
   }
 };
