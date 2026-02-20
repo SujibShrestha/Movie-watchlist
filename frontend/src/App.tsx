@@ -3,6 +3,8 @@ import MainLayout from "./layouts/MainLayout";
 import Home from "./pages/Home";
 import Watchlist from "./pages/Watchlist";
 import NotFound from "./pages/NotFound";
+import Register from "./pages/auth/Register";
+import Login from "./pages/auth/Login";
 
 
 function App() {
@@ -15,7 +17,8 @@ function App() {
         <Route index element={<Home />} />
         <Route path="watchlist" element={<Watchlist />} />
       </Route>
-
+<Route path="/register" element={<Register/>}/>
+<Route path="/login" element={<Login/>}/>
       {/* Outside layout */}
       <Route path="*" element={<NotFound />} />
     </Routes>

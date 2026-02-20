@@ -1,27 +1,28 @@
-import {type CorsOptions } from "cors";
+import { type CorsOptions } from "cors";
 
-const allowedOrigins: string[] = [
-  "http://localhost:3000", // frontend dev
-  "http://127.0.0.1:3000"
-];
+const allowedOrigins: (string | RegExp)[] = [
+  "http://localhost:3000", // other frontend devs
+  "http://127.0.0.1:3000",
+  "http://localhost:5173", // ✅ your frontend port
+  process.env.FRONTEND_URL
+].filter(Boolean) as (string | RegExp)[];
 
 const corsOptions: CorsOptions = {
   origin: (origin, callback) => {
-    // allow requests with no origin (Postman, curl, mobile apps)
-    if (!origin) {
-      return callback(null, true);
-    }
+    console.log("Incoming Origin:", origin);
+    if (!origin) return callback(null, true); // Postman/curl/no-origin
 
-    if (allowedOrigins.includes(origin)) {
-      return callback(null, true);
-    }
+    const isAllowed = allowedOrigins.some((o) =>
+      o instanceof RegExp ? o.test(origin) : o === origin
+    );
 
+    if (isAllowed) return callback(null, true);
+
+    console.error("Blocked Origin:", origin);
     return callback(new Error("Not allowed by CORS"));
   },
-
-  methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
-
-  credentials: true
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+  credentials: true, // needed if you send cookies or JWT
 };
 
 export default corsOptions;
