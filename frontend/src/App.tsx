@@ -4,6 +4,7 @@ import Home from "./pages/Home";
 import Watchlist from "./pages/Watchlist";
 import NotFound from "./pages/NotFound";
 
+
 function App() {
   return (
     <Routes>

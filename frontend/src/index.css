@@ -198,3 +198,6 @@ body {
     letter-spacing: var(--tracking-normal);
   }
 }
+* {
+  @apply transition-colors duration-300 ease-in-out;
+}
