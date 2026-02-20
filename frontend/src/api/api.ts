@@ -1,7 +1,7 @@
 import axios from "axios"
 
 export const api = axios.create({
-  baseURL: "http://localhost:3000/api/v1", // your backend URL
+  baseURL: import.meta.env.VITE_API_BASE_URL,
   withCredentials: true, // if using cookies
   headers: {
     "Content-Type": "application/json",
@@ -25,6 +25,10 @@ export const registerUser = async(data:RegisterPayload)=>{
 }
 
 export const loginUser = async (data: LoginPayload) => {
+  const res = await api.post("/auth/login", data)
+  return res.data
+}
+export const logoutUser = async (data: LoginPayload) => {
   const res = await api.post("/auth/login", data)
   return res.data
 }

@@ -21,6 +21,9 @@ import {
 import { Input } from "../../components/ui/input";
 import { useLogin } from "../../hooks/useLogin";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setCredentials } from "../../store/authslice";
+
 
 const formSchema = z.object({
   email: z.string().email("Enter a valid email."),
@@ -35,8 +38,15 @@ export default function Login() {
       password: "",
     },
   });
+   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const loginMutation = useLogin();
+  const loginMutation = useLogin({
+     onSuccess: (data:any) => {
+      // Save user + token to Redux
+     data = data.data
+      dispatch(setCredentials({ user: data.user, token: data.token }));
+    },
+  }); 
 
   async function onSubmit(data: z.infer<typeof formSchema>) {
     try {

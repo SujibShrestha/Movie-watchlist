@@ -5,6 +5,7 @@ import Watchlist from "./pages/Watchlist";
 import NotFound from "./pages/NotFound";
 import Register from "./pages/auth/Register";
 import Login from "./pages/auth/Login";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 
 function App() {
@@ -15,7 +16,8 @@ function App() {
         {/* Child Routes render inside <Outlet /> */}
 
         <Route index element={<Home />} />
-        <Route path="watchlist" element={<Watchlist />} />
+        
+        <Route path="watchlist" element={<ProtectedRoute><Watchlist /></ProtectedRoute>} />
       </Route>
 <Route path="/register" element={<Register/>}/>
 <Route path="/login" element={<Login/>}/>
