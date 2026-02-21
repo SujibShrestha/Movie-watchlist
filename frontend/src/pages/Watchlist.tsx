@@ -8,6 +8,7 @@ import {
   TabsList,
   TabsTrigger,
 } from "../components/ui/tabs";
+import { MovieSidebar } from "../components/MovieSidebar";
 
 export default function Watchlist() {
 
@@ -15,12 +16,19 @@ export default function Watchlist() {
   const token = user.token!
   const [status,setStatus] =useState<"" | "WATCHED" | "NOT_WATCHED">("");
   const { data: watchlist, isLoading,  } = useWatchlist(token,status);
-console.log(watchlist)
+   const [selectedMovie, setSelectedMovie] = useState<any>(null);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const handleMovieClick = (movie: any) => {
+    setSelectedMovie(movie);
+    setSidebarOpen(true);
+  };
   return (
    <section className="py-10 bg-background text-foreground transition-colors duration-300">
-  <div className="max-w-7xl mx-auto px-6">
-    <div className="flex justify-between items-center w-full">
-    <h1 className="text-3xl font-semibold mb-4">My Watchlist</h1>
+  <div className="max-w-7xl mx-auto px-6 ">
+    <div className="flex sm:justify-between sm:items-center max-sm:flex-col mb-4">
+   <h1 className="text-2xl md:text-3xl text-left font-semibold tracking-tight">
+            My Watchlist
+          </h1>
      <Tabs
           value={status}
           onValueChange={(value) => setStatus(value as typeof status)}
@@ -43,14 +51,26 @@ console.log(watchlist)
           ))
         : watchlist && watchlist.data.map((movie: any) => {
           return  <div
+          onClick={()=>handleMovieClick(movie)}
               key={movie.id}
               className="bg-card text-card-foreground rounded-lg shadow-md overflow-hidden"
             >
               <MovieCard movie={movie} />
             </div>
 })}
+  {!isLoading && watchlist?.data?.length === 0 && (
+            <p className="col-span-full text-center text-muted-foreground mt-4">
+              No movies found.
+            </p>
+          )}
     </div>
+      <MovieSidebar
+          movie={selectedMovie}
+          open={sidebarOpen}
+          onOpenChange={setSidebarOpen}
+        />
   </div>
+  
 </section>
   );
 }

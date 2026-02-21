@@ -1,22 +1,28 @@
 import { useState } from "react";
 import MovieCard from "../components/MovieCard";
-import { Button } from "../components/ui/button";
+
 import { Skeleton } from "../components/ui/skeleton";
 import { useGetMovies } from "../hooks/useGetMovies";
 import {
   Pagination,
   PaginationContent,
-  PaginationEllipsis,
   PaginationItem,
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
 } from "../components/ui/pagination"
+import { MovieSidebar } from "../components/MovieSidebar";
 
 export default function Home() {
   const [page, setPage] = useState(1);
 
   const { data, isLoading, isError } = useGetMovies(page);
+  const [selectedMovie, setSelectedMovie] = useState<any>(null);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const handleMovieClick = (movie: any) => {
+    setSelectedMovie(movie);
+    setSidebarOpen(true);
+  };
   return (
     <section className="py-10">
       <div className="max-w-7xl mx-auto px-6 space-y-10">
@@ -44,7 +50,11 @@ export default function Home() {
                 <Skeleton key={i} className="aspect-[2/3] rounded-xl" />
               ))
             : data && data.map((movie: any) => (
-                <MovieCard key={movie.id} movie={movie} />
+              <div
+          onClick={()=>handleMovieClick(movie)}
+              key={movie.id}
+              className="bg-card text-card-foreground rounded-lg shadow-md overflow-hidden"
+            > <MovieCard  movie={movie} /></div>
               ))}
         </div>
 
@@ -98,6 +108,11 @@ export default function Home() {
     </PaginationContent>
   </Pagination>
         </div>
+         <MovieSidebar
+                  movie={selectedMovie}
+                  open={sidebarOpen}
+                  onOpenChange={setSidebarOpen}
+                />
       </div>
     </section>
   );
