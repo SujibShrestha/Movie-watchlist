@@ -4,7 +4,7 @@ import Footer from "../components/ui/Footer.tsx";
 
 const MainLayout = () => {
   return (
-    <>
+    <div className="min-h-screen flex flex-col bg-background text-foreground">
       <Navbar />
 
       <main style={{ padding: "20px" }}>
@@ -13,7 +13,7 @@ const MainLayout = () => {
       </main>
 
      <Footer/>
-    </>
+    </div>
   );
 };
 

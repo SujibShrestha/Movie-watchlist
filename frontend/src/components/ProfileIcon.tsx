@@ -23,7 +23,7 @@ export function ProfileIcon() {
     // Optionally redirect to login page
     navigate("/login");
   };
-  const user = useSelector((state: RootState) => state.auth.user);
+  const user = useSelector((state: RootState) => state.auth?.user);
   if(user){
   return (
     <DropdownMenu>
