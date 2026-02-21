@@ -1,6 +1,4 @@
 import axios from "axios";
-import { useSelector } from "react-redux";
-import type { RootState } from "../store/store";
 export const api = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL,
   withCredentials: true, // if using cookies
@@ -61,6 +59,27 @@ export const getWatchlist = async (token: string, params?: WatchlistParams) => {
     },
     params,
   });
+
+  return res.data.data; 
+};
+
+export const addMovies = async (token: string, data:any) => {
+  const res = await api.post("/watchlist",data, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+console.log(res)
+  return res.data.data; 
+};
+
+export const removeMovie = async (token: string,id:number) => {
+  console.log(token)
+  const res = await api.delete(`/watchlist/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  }); 
 
   return res.data.data; 
 };

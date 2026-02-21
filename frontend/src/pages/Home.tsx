@@ -47,7 +47,7 @@ export default function Home() {
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-5 gap-x-6 gap-y-10">
           {isLoading
             ? new Array(12).fill(null).map((_, i) => (
-                <Skeleton key={i} className="aspect-[2/3] rounded-xl" />
+                <Skeleton key={i} className="aspect-2/3 rounded-xl" />
               ))
             : data && data.map((movie: any) => (
               <div
@@ -108,7 +108,7 @@ export default function Home() {
     </PaginationContent>
   </Pagination>
         </div>
-         <MovieSidebar
+         <MovieSidebar  
                   movie={selectedMovie}
                   open={sidebarOpen}
                   onOpenChange={setSidebarOpen}

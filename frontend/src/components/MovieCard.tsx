@@ -21,7 +21,7 @@ export default function MovieCard({ movie }: MovieCardProps) {
 
           {/* rating badge */}
           <Badge className="absolute bottom-3 left-3 bg-background/80 backdrop-blur">
-            <Star/> { movie.voteAverage || movie.vote_average.toFixed(1)}
+            <Star/> { Number(movie.voteAverage || movie.vote_average).toFixed(1)}
           </Badge>
         </div>
 

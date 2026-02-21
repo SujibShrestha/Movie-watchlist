@@ -46,7 +46,7 @@ export default function Watchlist() {
         ? new Array(12).fill(null).map((_, i) => (
             <div
               key={i}
-              className="aspect-[2/3] rounded-lg bg-muted animate-pulse"
+              className="aspect-2/3 rounded-lg bg-muted animate-pulse"
             />
           ))
         : watchlist && watchlist.data.map((movie: any) => {

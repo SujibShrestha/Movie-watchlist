@@ -7,7 +7,7 @@ interface LoginData {
 }
 
 interface UserResponse {
-  user: { name: string; email: string };
+  user: { id: number; name: string; email: string; avatar?: string | null; createdAt?: Date };
   token: string;
 }
 
