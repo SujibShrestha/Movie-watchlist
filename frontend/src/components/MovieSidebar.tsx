@@ -32,12 +32,11 @@ export const MovieSidebar = ({
   if (!movie) return null;
   const user = useSelector((state: RootState) => state.auth);
   const token = user.token!;
-
-
+const tmdbId = movie.tmdbId ?? movie.id;
 const { data: watchlist } = useWatchlist(token, "");
 const { toggleWatchlist, isLoading } = useToggleWatchlist(token);
 const existingMovie = watchlist?.data?.find(
-  (m: any) => m.tmdbId === movie.tmdbId
+  (m: any) => m.tmdbId === tmdbId
 );
 
 const isInWatchlist = !!existingMovie;
