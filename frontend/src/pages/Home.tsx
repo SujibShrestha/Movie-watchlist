@@ -17,8 +17,8 @@ import SearchButton from '../components/SearchButton';
 
 export default function Home() {
   const [page, setPage] = useState(1);
-
-  const { data, isLoading, isError } = useGetMovies(page);
+  const [query,setQuery] = useState("");
+  const { data, isLoading, isError } = useGetMovies(page,query);
   const [selectedMovie, setSelectedMovie] = useState<any>(null);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const handleMovieClick = (movie: any) => {
@@ -28,7 +28,13 @@ export default function Home() {
   return (
     <section className="py-10">
       <div className="max-w-7xl mx-auto px-6 space-y-10">
-     <SearchButton />
+    <SearchButton
+  placeholder="Search movies..."
+  onSearch={(text) => {
+    setPage(1);      // reset pagination on new search
+    setQuery(text);  // trigger refetch
+  }}
+/>
         <div>
           <h1 className="text-2xl md:text-3xl font-semibold tracking-tight">
             Featured Movies
@@ -51,7 +57,7 @@ export default function Home() {
             ? new Array(12).fill(null).map((_, i) => (
                 <Skeleton key={i} className="aspect-2/3 rounded-xl" />
               ))
-            : data && data.map((movie: any) => (
+            : data && data.results.map((movie: any) => (
               <div
           onClick={()=>handleMovieClick(movie)}
               key={movie.id}

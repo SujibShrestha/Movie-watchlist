@@ -43,8 +43,8 @@ export interface GetMoviesResponse {
   total_results: number;
 }
 
-export const getMovies = async (page = 1) => {
-  const res = await api.get(`/movies?page=${page}`);
+export const getMovies = async (page = 1,query:string) => {
+  const res = await api.get(`/movies?page=${page}&query=${query}`);
   return res.data;
 };
 
@@ -84,7 +84,6 @@ export const removeMovie = async (token: string,id:number) => {
 };
 
 export const UpdateStatusMovie =async (token: string,id:number, data:WatchlistParams) => {
-  console.log(data)
   const res = await api.patch(`/watchlist/${id}`,data, {
     headers: {
       Authorization: `Bearer ${token}`,

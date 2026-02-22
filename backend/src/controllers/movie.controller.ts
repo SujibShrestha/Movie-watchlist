@@ -5,7 +5,8 @@ export async function getTrendingMovies(req:Request, res:Response) {
   try {
     const page = parseInt(req.query.page as string) || 1;
     const sort_by = (req.query.sort_by as string) || "popularity.desc";
-    const movies = await fetchMoviesFromTMDB({page,sortBy:sort_by});
+    const query = (req.query.query as string) || "";
+    const movies = await fetchMoviesFromTMDB({page,sortBy:sort_by,query});
     res.json(movies);
   } catch (err:unknown) {
     res.status(500).json({ error: err });
