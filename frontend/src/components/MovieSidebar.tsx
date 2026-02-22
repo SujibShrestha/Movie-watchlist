@@ -13,6 +13,8 @@ import { useSelector } from "react-redux";
 import type { RootState } from "../store/store";
 import { useToggleWatchlist } from "../hooks/useToggleWatchlist";
 import { useWatchlist } from "../hooks/useGetWatchlist";
+import { useUpdateStatus } from "../hooks/useUpdateStatus";
+import { useState } from "react";
 
 const IMAGE_BASE = import.meta.env.VITE_TMDB_BASE_URL;
 
@@ -30,6 +32,8 @@ export const MovieSidebar = ({
   if (!movie) return null;
   const user = useSelector((state: RootState) => state.auth);
   const token = user.token!;
+
+
 const { data: watchlist } = useWatchlist(token, "");
 const { toggleWatchlist, isLoading } = useToggleWatchlist(token);
 const existingMovie = watchlist?.data?.find(
@@ -37,6 +41,18 @@ const existingMovie = watchlist?.data?.find(
 );
 
 const isInWatchlist = !!existingMovie;
+
+const { mutate: updateStatus, isPending } = useUpdateStatus(token);
+const [status,setStatus] = useState<string>("NOT_WATCHED")
+const handleToggleWatched = (movie: any) => {
+   const newStatus = status === "WATCHED" ? "NOT_WATCHED" : "WATCHED";
+  setStatus(newStatus);
+
+  updateStatus({
+    id: movie.id,
+    payload: { status: newStatus }, 
+  });
+};
   return (
     <div className="flex justify-end-safe items-center">
       <Dialog open={open} onOpenChange={onOpenChange}>
@@ -122,9 +138,14 @@ const isInWatchlist = !!existingMovie;
     ? "Remove from Watchlist"
     : "Add to Watchlist"}
 </Button>
-            <Button variant="default" className="w-full">
-              Mark as Watched
-            </Button>
+           <Button
+  variant={movie.status !== status ? "default" : "secondary"} // different style if already watched
+  className="w-full"
+  onClick={() => handleToggleWatched(movie)}
+  disabled={isPending} // optional: disable while updating
+>
+  {movie.status !== "WATCHED" ?"Mark as Watched"  :"Watched ✓" }
+</Button>
           </div>
         </DialogContent>
       </Dialog>

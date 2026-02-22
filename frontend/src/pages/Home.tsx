@@ -12,6 +12,8 @@ import {
   PaginationPrevious,
 } from "../components/ui/pagination"
 import { MovieSidebar } from "../components/MovieSidebar";
+import SearchButton from '../components/SearchButton';
+
 
 export default function Home() {
   const [page, setPage] = useState(1);
@@ -26,7 +28,7 @@ export default function Home() {
   return (
     <section className="py-10">
       <div className="max-w-7xl mx-auto px-6 space-y-10">
-        {/* Page Heading */}
+     <SearchButton />
         <div>
           <h1 className="text-2xl md:text-3xl font-semibold tracking-tight">
             Featured Movies

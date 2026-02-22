@@ -74,8 +74,18 @@ console.log(res)
 };
 
 export const removeMovie = async (token: string,id:number) => {
-  console.log(token)
   const res = await api.delete(`/watchlist/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  }); 
+
+  return res.data.data; 
+};
+
+export const UpdateStatusMovie =async (token: string,id:number, data:WatchlistParams) => {
+  console.log(data)
+  const res = await api.patch(`/watchlist/${id}`,data, {
     headers: {
       Authorization: `Bearer ${token}`,
     },

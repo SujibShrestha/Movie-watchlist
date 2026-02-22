@@ -2,7 +2,7 @@ import { useSelector } from "react-redux";
 import MovieCard from "../components/MovieCard";
 import { useWatchlist } from "../hooks/useGetWatchlist";
 import type { RootState } from "../store/store";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Tabs,
   TabsList,
@@ -15,13 +15,16 @@ export default function Watchlist() {
   const user = useSelector((state:RootState)=>state.auth)
   const token = user.token!
   const [status,setStatus] =useState<"" | "WATCHED" | "NOT_WATCHED">("");
-  const { data: watchlist, isLoading,  } = useWatchlist(token,status);
+  const { data: watchlist, isLoading,refetch  } = useWatchlist(token,status);
    const [selectedMovie, setSelectedMovie] = useState<any>(null);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const handleMovieClick = (movie: any) => {
     setSelectedMovie(movie);
     setSidebarOpen(true);
   };
+  useEffect(()=>{
+refetch()
+  },[status])
   return (
    <section className="py-10 bg-background text-foreground transition-colors duration-300">
   <div className="max-w-7xl mx-auto px-6 ">
