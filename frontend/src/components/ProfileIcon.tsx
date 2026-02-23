@@ -20,8 +20,7 @@ export function ProfileIcon() {
     // Clear Redux state
     dispatch(logout());
 
-    // Optionally redirect to login page
-    navigate("/login");
+  
   };
   const user = useSelector((state: RootState) => state.auth?.user);
   if(user){
@@ -30,14 +29,14 @@ export function ProfileIcon() {
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" size="icon" className="rounded-full">
           <Avatar>
-            <AvatarImage src="https://github.com/shadcn.png" alt="shadcn" />
-            <AvatarFallback>CN</AvatarFallback>
+            <AvatarImage src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSO4fSImleV6t5kyYU067ZPx8sSHHixQ_-8Og&s" alt="progile" />
+            <AvatarFallback>(user.name[0])</AvatarFallback>
           </Avatar>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-32">
         <DropdownMenuGroup>
-          <DropdownMenuItem>Profile</DropdownMenuItem>
+          <DropdownMenuItem>{(user.name).toUpperCase()}</DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
