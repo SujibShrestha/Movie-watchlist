@@ -40,6 +40,8 @@
     "noUncheckedSideEffectImports": true,
     "moduleDetection": "force",
     "skipLibCheck": true,
+    "esModuleInterop": true,
+"allowSyntheticDefaultImports": true,
   },
   "exclude": ["prisma.config.ts", "node_modules"]
 }
