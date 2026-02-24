@@ -3,7 +3,7 @@ import { type CorsOptions } from "cors";
 const allowedOrigins: (string | RegExp)[] = [
   "http://localhost:3000", // other frontend devs
   "http://127.0.0.1:3000",
-  "http://localhost:5173", // ✅ your frontend port
+  "https://movie-watchlist-py3q.vercel.app", // ✅ your frontend port
   process.env.FRONTEND_URL
 ].filter(Boolean) as (string | RegExp)[];
 
