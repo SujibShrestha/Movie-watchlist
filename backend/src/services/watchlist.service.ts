@@ -1,5 +1,5 @@
-import { Prisma } from "../generated/prisma/index.js";
-import type { Movie, MovieStatus, Watchlist } from "../@types/types.js";
+import { Prisma } from "@prisma/client";
+import type { MovieStatus  } from "../@types/types.js";
 import { prisma } from "../config/db.js";
 import { ApiError } from "../helpers/ApiError.js";
 import type { AddMovieInput } from "../validators/movie.validation.js";
