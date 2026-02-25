@@ -4,7 +4,7 @@ const allowedOrigins: (string | RegExp)[] = [
   "http://localhost:3000", // other frontend devs
   "http://127.0.0.1:3000",
   "https://movie-watchlist-py3q.vercel.app", // ✅ your frontend port
-  process.env.FRONTEND_URL
+  "http://localhost:5173",
 ].filter(Boolean) as (string | RegExp)[];
 
 const corsOptions: CorsOptions = {
@@ -13,7 +13,7 @@ const corsOptions: CorsOptions = {
     if (!origin) return callback(null, true); // Postman/curl/no-origin
 
     const isAllowed = allowedOrigins.some((o) =>
-      o instanceof RegExp ? o.test(origin) : o === origin
+      o instanceof RegExp ? o.test(origin) : o === origin,
     );
 
     if (isAllowed) return callback(null, true);
