@@ -17,16 +17,16 @@ Live Demo: https://movie-watchlist-py3q.vercel.app
 
 - **Frontend:** TypeScript, React  
 - **Backend:** Node.js, Express  
-- **Styling:** CSS  
-- **API:** (if you use one) e.g., TMDb API
+- **Styling:** Tailwind CSS  
+- **API:**  TMDb API
 
 ## 📁 Project Structure
 
-
+```bash
 ├── backend/ – Server code (API, routes, database)
 ├── frontend/ – Client UI (React + TypeScript)
 └── README.md – This documentation
-
+```
 
 ## 💻 Getting Started
 
