@@ -96,9 +96,3 @@ View your saved movies
 
 Feel free to open an issue or submit a pull request to improve this project. All contributions are welcome!
 
-📝 License
-
-Add your license here (e.g., MIT).
-If no license file exists, write:
-
-MIT License
