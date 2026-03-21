@@ -7,14 +7,14 @@ import movieRoutes from "./routes/movies.route.js"
 import authRoutes from "./routes/auth.route.js"
 import watchlistRoutes from "./routes/watchlist.route.js"
 import { authorize } from "./middlewares/auth.middleware.js"
-// import { apiLimiter } from "./middlewares/rateLimit.middleware.js"
+import { apiLimiter } from "./middlewares/rateLimit.middleware.js"
 config()
 
 const app = express()
 const PORT = process.env.PORT || 3000
 
 //Middlewares
-// app.use(apiLimiter)
+app.use(apiLimiter)
 app.use(express.json())
 app.use(cors(corsOptions))
 
